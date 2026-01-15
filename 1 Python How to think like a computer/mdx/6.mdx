@@ -11,8 +11,8 @@ Chapter 6 moves beyond functions that simply *do* something to functions that *r
 
 ## 1. Incremental Development of Recursion
 Writing a recursive function (like `factorial`) is best done in small steps.
-- **Base Case:** The condition where the function stops calling itself (e.g., $0! = 1$).
-- **Recursive Step:** The logic that reduces the problem toward the base case (e.g., $n! = n \times (n-1)!$).
+- **Base Case:** The condition where the function stops calling itself (e.g., $$0! = 1$$).
+- **Recursive Step:** The logic that reduces the problem toward the base case (e.g., $$n! = n \times (n-1)!$$).
 
 
 
@@ -23,7 +23,7 @@ Unlike the simple functions in Chapter 3, recursive return values flow **back up
 
 ## 3. The "Leap of Faith"
 Following the flow of execution in recursion (like the Fibonacci sequence) can be overwhelming.
-- **The Concept:** Assume the recursive call works correctly for $n-1$.
+- **The Concept:** Assume the recursive call works correctly for $$n-1$$.
 - **The Goal:** Focus only on whether you can solve the current step ($n$) assuming you have the result of the previous step.
 - **Analyst Note:** We use this "Leap of Faith" daily when calling complex libraries like `pandas` or `math` without reading their source code.
 
@@ -55,7 +55,7 @@ def ackermann(m, n):
 ```
 
 ### Exercise: Greatest Common Divisor (GCD)
-Using the Euclidean algorithm: $gcd(a, b) = gcd(b, a \mod b)$. This is a highly efficient recursive solution.
+Using the Euclidean algorithm: $$gcd(a, b) = gcd(b, a \mod b)$$. This is a highly efficient recursive solution.
 ```python
 def gcd(a, b):
     if b == 0:
@@ -64,12 +64,9 @@ def gcd(a, b):
 ```
 
 ### Exercise: Hypot (Manual Implementation)
-Practicing incremental development to find the hypotenuse $c = \sqrt{a^2 + b^2}$.
+Practicing incremental development to find the hypotenuse $$c = \sqrt{a^2 + b^2}$$.
 1. Start with `return 0.0`.
 2. Add the sum of squares.
 3. Finally, apply `math.sqrt()`.
 
 ---
-
-### Reflection: The Logic of Data
-In Data Analytics, return values are our primary output. Whether I am writing a function to calculate a moving average or a custom CAGR (Compound Annual Growth Rate), the principles of **input validation** and **incremental development** ensure my data remains accurate and my scripts remain "Best-in-Class."
