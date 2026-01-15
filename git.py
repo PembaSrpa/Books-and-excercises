@@ -18,5 +18,5 @@ def git_push(message):
         print(f"An error occurred while pushing: {e}")
 
 # Usage
-message = "blogs 3"
+message = "blogs fixed"
 git_push(message)
