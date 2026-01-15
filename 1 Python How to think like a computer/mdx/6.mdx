@@ -10,39 +10,43 @@ tags: ["Python", "Recursion", "ReturnValues", "DataAnalytics"]
 Chapter 6 moves beyond functions that simply *do* something to functions that *return* results. This is a core requirement for Data Analytics, where functions are used to transform raw data into calculated metrics.
 
 ## 1. Incremental Development of Recursion
+
 Writing a recursive function (like `factorial`) is best done in small steps.
-- **Base Case:** The condition where the function stops calling itself (e.g., $$0! = 1$$).
-- **Recursive Step:** The logic that reduces the problem toward the base case (e.g., $$n! = n \times (n-1)!$$).
 
-
+- **Base Case:** The condition where the function stops calling itself (e.g., $0! = 1$).
+- **Recursive Step:** The logic that reduces the problem toward the base case (e.g., $n! = n \times (n-1)!$).
 
 ## 2. The Stack Diagram and Return Flow
+
 Unlike the simple functions in Chapter 3, recursive return values flow **back up the stack**. Each frame waits for the result of the frame below it before completing its own calculation.
 
-
-
 ## 3. The "Leap of Faith"
+
 Following the flow of execution in recursion (like the Fibonacci sequence) can be overwhelming.
-- **The Concept:** Assume the recursive call works correctly for $$n-1$$.
+
+- **The Concept:** Assume the recursive call works correctly for $n-1$.
 - **The Goal:** Focus only on whether you can solve the current step ($n$) assuming you have the result of the previous step.
 - **Analyst Note:** We use this "Leap of Faith" daily when calling complex libraries like `pandas` or `math` without reading their source code.
 
 ## 4. Input Validation
+
 To prevent **Infinite Recursion** (which causes a `RecursionError`), we must ensure the input is valid.
+
 - **`isinstance(n, int)`:** Checks if the value is of the correct type.
 - **Value Checking:** Ensuring a number isn't negative if the mathematical domain requires it.
 - **None Return:** If validation fails, returning `None` signals an error to the caller.
 
 ## 5. Debugging with Scaffolding
+
 **Scaffolding** is temporary code (like `print` statements) used during development.
+
 - **Trace Output:** Adding spaces to indent print statements helps visualize the recursive depth.
 - **Checkpoints:** Verify preconditions (arguments), postconditions (function logic), and the caller's use of the return value.
-
-
 
 ## 6. Mathematical Exercises
 
 ### Exercise: The Ackermann Function
+
 A classic example of a function that grows extremely quickly. It tests the limits of recursion and stack depth.
 ```python
 def ackermann(m, n):
@@ -55,7 +59,8 @@ def ackermann(m, n):
 ```
 
 ### Exercise: Greatest Common Divisor (GCD)
-Using the Euclidean algorithm: $$gcd(a, b) = gcd(b, a \pmod b)$$. This is a highly efficient recursive solution.
+
+Using the Euclidean algorithm: $\text{gcd}(a, b) = \text{gcd}(b, a \bmod b)$. This is a highly efficient recursive solution.
 ```python
 def gcd(a, b):
     if b == 0:
@@ -64,7 +69,9 @@ def gcd(a, b):
 ```
 
 ### Exercise: Hypot (Manual Implementation)
-Practicing incremental development to find the hypotenuse $$c = \sqrt{a^2 + b^2}$$.
+
+Practicing incremental development to find the hypotenuse $c = \sqrt{x^2 + y^2}$.
+
 1. Start with `return 0.0`.
 2. Add the sum of squares.
 3. Finally, apply `math.sqrt()`.
