@@ -1,0 +1,83 @@
+---
+title: "Step 5: Conditionals and Recursion"
+date: "2026-01-19"
+description: "Mastering logical flow, recursive functions, stack depth, and the nuances of user input and debugging."
+tags: ["Python", "Conditionals", "Recursion", "Data Analytics"]
+---
+
+# Conditionals and Recursion
+
+Chapter 5 bridges the gap between linear code and dynamic logic. For a Data Analyst, understanding conditionals is essential for data filtering, while recursion provides the basis for navigating complex data structures.
+
+## 1. Boolean Expressions and Logical Operators
+A **boolean expression** evaluates to either `True` or `False`.
+- **Relational Operators:** `==`, `!=`, `>`, `<`, `>=`, `<=`
+- **Logical Operators:** `and`, `or`, and `not`. These allow for complex data validation (e.g., checking if a value is within a specific range).
+
+## 2. Conditional Execution
+Conditional statements control the flow of execution:
+- **if/else:** Basic binary decision making.
+- **Chained Conditionals (`elif`):** Used when there are more than two possibilities.
+- **Nested Conditionals:** An `if` statement inside another. *Clean Code Tip:* Favor chained conditionals over deeply nested ones to improve readability.
+
+
+
+## 3. Recursion
+**Recursion** is the process of a function calling itself.
+- **The Base Case:** Every recursive function must have a branch that does *not* make a recursive call. Without this, the program will trigger an **Infinite Recursion**.
+- **Stack Depth:** Python has a limit on recursion (usually around 3,000 frames). Exceeding this causes a `RecursionError`.
+
+
+
+## 4. Keyboard Input
+The `input()` function allows programs to be interactive.
+- **Default Type:** `input()` always returns a **string**.
+- **Type Casting:** If numerical data is needed, you must wrap it in `int()` or `float()`.
+- **The Newline (`\n`):** A special character used to move the cursor to the next line for a cleaner UI.
+
+## 5. Debugging: Reading Error Messages
+Error messages indicate where a problem was *discovered*, not necessarily where it *occurred*.
+- **IndentationError:** Often caused by mixing tabs and spaces or "invisible" extra spaces.
+- **ValueError:** Occurs when type conversion fails (e.g., `int("hello")`).
+- **Math Domain Error:** Occurs when an argument is outside a function's mathematical range (e.g., `math.log10(0)`).
+
+
+
+## 6. Advanced Exercises: Recursion in Action
+
+### Exercise: The Unix Epoch
+Calculating time using floor division (`//`) and the modulus operator (`%`).
+```python
+from time import time
+total_seconds = time()
+days = total_seconds // (24 * 3600)
+# Remaining seconds are used to find current hours/minutes/seconds
+```
+
+### Exercise: Recursive Graphics (Koch Curve)
+I used recursion to draw the Koch curve, a fractal shape where each segment is replaced by four smaller segments.
+```python
+def koch(t, x):
+    if x < 5:
+        t.fd(x)
+    else:
+        koch(t, x/3)
+        t.lt(60)
+        koch(t, x/3)
+        t.rt(120)
+        koch(t, x/3)
+        t.lt(60)
+        koch(t, x/3)
+```
+
+
+
+### Exercise: The Sierpiński Triangle
+A more advanced recursive pattern where a triangle is divided into smaller sub-triangles. This exercise demonstrates how recursion can create complex, self-similar structures with very little code.
+
+
+
+---
+
+### Reflection
+Step 5 teaches us that programming is about handling **exceptions** and **branches**. In Data Analytics, this logic is applied every time we use an `IF` statement in Excel or a `WHERE` clause in SQL. Mastering the recursive mindset also prepares me for understanding tree-based machine learning models later in the roadmap.

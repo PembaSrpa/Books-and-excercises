@@ -1,0 +1,85 @@
+---
+title: "Step 10: Dictionaries, Memos, and Performance"
+date: "2026-01-25"
+description: "Exploring hash tables, the importance of hashable keys, and optimizing recursive functions with memoization."
+tags: ["Python", "Dictionaries", "Optimization", "Algorithms"]
+---
+
+# Dictionaries: Advanced Mapping and Optimization
+
+Chapter 10 delves into the mechanics of **Dictionaries** and how they can be used to dramatically improve the performance of your code. For a Data Analyst, a dictionary isn't just a storage tool; it’s a high-speed lookup table for your most intensive calculations.
+
+## 1. Hash Tables and Hashable Keys
+Dictionaries in Python are implemented using **Hash Tables**. To look up a value instantly, Python converts the key into an integer called a **hash value**.
+
+### The Rule of Immutability
+- **Hashable:** Immutable types (integers, strings, floats) are hashable. Their value—and thus their hash—never changes.
+- **Unhashable:** Mutable types (lists, dictionaries) are **not** hashable. If you try to use a list as a key, Python raises a `TypeError`.
+- **Logic:** If a key's value changed, its hash would change, and the dictionary would "lose" the location of the data.
+
+
+
+## 2. Computational Patterns: Accumulation and Filtering
+We often use dictionaries and lists together to process datasets.
+- **Accumulator:** A variable (like an empty list) used to collect results during a loop.
+- **Filtering:** Selecting only specific items from a sequence (e.g., finding only palindromes with $\ge 7$ letters).
+
+```python
+# Filtering palindromes from a dictionary
+long_palindromes = [word for word in word_dict if is_palindrome(word) and len(word) >= 7]
+```
+
+## 3. Memos: Solving the Recursion Bottleneck
+Recursive functions like `fibonacci(n)` are often inefficient because they recalculate the same values thousands of times.
+- **Call Graph:** A diagram showing which function calls triggered others. In standard Fibonacci, the tree grows exponentially.
+- **Memoization:** Storing the results of expensive function calls in a dictionary (a **memo**) so you can look them up instead of recomputing them.
+
+
+
+### Performance Comparison
+| Function | input ($n$) | Time |
+| :--- | :--- | :--- |
+| `fibonacci` | 40 | ~30 seconds |
+| `fibonacci_memo` | 40 | ~30 microseconds |
+
+*Efficiency Gain: Over 1,000,000x faster.*
+
+## 4. Debugging Large Datasets
+When printing 100,000 lines is impossible, use these "Best-in-Class" debugging strategies:
+1. **Scale Down:** Use `!head` to create a 10-line sample file.
+2. **Check Summaries:** Print `len(d)` or `type(value)` instead of the raw data.
+3. **Sanity Checks:** Verify that results are within a logical range (e.g., an average shouldn't be higher than the max value).
+4. **Pretty Print:** Use the `pprint` module to make nested dictionaries readable.
+
+## 5. Exercises: Dictionary Mastery
+
+### Exercise: The `get` Method
+The `.get(key, default)` method simplifies code by handling missing keys without an `if` statement.
+```python
+# Concise value counting
+for char in word:
+    counter[char] = counter.get(char, 0) + 1
+```
+
+### Exercise: Finding Duplicates
+A high-speed check for uniqueness using a dictionary to track seen items.
+```python
+def has_duplicates(s):
+    seen = {}
+    for x in s:
+        if x in seen: return True
+        seen[x] = True
+    return False
+```
+
+### Exercise: Interlocking Words
+Using string slicing with a "step" to split words.
+- `word[0::2]` gets characters at even indices.
+- `word[1::2]` gets characters at odd indices.
+
+---
+
+### Reflection
+Step 10 is where you learn to write **performant** code. In Step 7 of your Roadmap (GenAI for Data Analytics), you'll see that LLMs and complex algorithms rely on these exact memoization and hash-table principles to process vast amounts of data in real-time.
+
+**Next Step:** Would you like to see how to use the `timeit` module to measure the exact speed difference between your standard and memoized functions?

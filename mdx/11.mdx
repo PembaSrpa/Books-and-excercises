@@ -1,0 +1,84 @@
+---
+title: "Step 11: Tuples, Sorting, and Compound Data Structures"
+date: "2026-01-26"
+description: "Mastering tuple comparison, dictionary inversion, and the logic of Caesar ciphers."
+tags: ["Python", "Tuples", "Sorting", "DataStructures", "Cryptography"]
+---
+
+# Tuples: Advanced Comparison and Structures
+
+Tuples are more than just immutable lists; they are the standard for returning multiple values and managing sorted data. This step covers how to leverage tuple logic to organize complex datasets.
+
+## 1. Tuple Comparison Logic
+Relational operators (`<`, `>`, `==`) compare tuples element-by-element.
+- **The Process:** Python compares the first elements. If they are different, it returns the result immediately. If they are the same, it moves to the next pair.
+- **Analyst Note:** This is why `(0, 1, 1000) < (0, 2, 1)` is `True`. The "1000" is never reached because $1 < 2$ is determined first.
+
+
+
+## 2. Advanced Sorting with `key`
+While `sorted()` defaults to the first element of a tuple, we often need to sort by other criteria (e.g., sorting by frequency rather than alphabetical order).
+- **Sort Key:** A function passed to `sorted()` that tells Python what value to use for comparison.
+- **Example:** Finding the most common letter.
+
+```python
+def second_element(t):
+    return t[1]
+
+# Sorts items by count (the second element)
+sorted_items = sorted(counter.items(), key=second_element)
+most_common = sorted_items[-1]
+```
+
+## 3. Inverting a Dictionary
+Sometimes you need to look up a key by its value. However, while keys are unique, values are not.
+- **The Solution:** Invert the dictionary so the new values are **lists** of keys.
+- **Pattern:** `Original {Key: Value} -> Inverted {Value: [Key1, Key2]}`.
+
+
+
+## 4. Compound Data Structures and `structshape`
+As data becomes complex (e.g., a dictionary where keys are tuples and values are lists of lists), tracking types becomes difficult.
+- **`structshape`:** A debugging tool that summarizes the "shape" of data.
+- **Example:** A list of tuples `[(1, 'a'), (2, 'b')]` is summarized as `'list of 2 tuple of (int, str)'`.
+
+## 5. Hashability of Tuples
+Tuples are generally hashable (usable as dictionary keys) because they are immutable.
+- **The Exception:** If a tuple contains a **mutable** element (like a list), it becomes **unhashable**.
+- **Logic:** If the list inside the tuple changes, the tuple's hash changes, breaking the dictionary lookup.
+
+---
+
+### Exercises: Algorithms and Ciphers
+
+#### Exercise: Caesar Cipher
+A Caesar cipher shifts letters by a fixed number. We use `zip` to map letters to indices and the **modulus operator (`%`)** to handle the "wrap-around" from 'z' to 'a'.
+```python
+def shift_word(word, shift):
+    res = []
+    for letter in word:
+        # Calculate new index: (old_index + shift) % 26
+        new_index = (letter_map[letter] + shift) % 26
+        res.append(alphabet[new_index])
+    return ''.join(res)
+```
+
+#### Exercise: Anagram Sets
+To find all anagrams in a word list:
+1. Iterate through words.
+2. Sort characters in each word to create a "signature."
+3. Store in a dictionary: `{signature: [word1, word2]}`.
+
+#### Exercise: Metathesis Pairs
+Two words are a metathesis pair if they are anagrams and differ in exactly two positions.
+- **Step 1:** Use the Anagram Sets dictionary.
+- **Step 2:** Within each anagram list, use `word_distance` (comparing indices via `zip`) to find pairs with a distance of exactly 2.
+
+
+
+---
+
+### Reflection
+Step 11 is the culmination of your Python basics. By combining tuples, dictionaries, and lists, you can now build **Compound Data Structures**. In Step 4 of your Roadmap (Python for Data Analysis), this ability to structure data properly is what allows you to manipulate complex JSON responses and nested data frames efficiently.
+
+**Next Step:** You've finished the core Python data structures. Would you like to start a mini-project, such as a "Word Frequency Analyzer" that uses everything we've learned to process a book file?

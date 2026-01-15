@@ -1,0 +1,86 @@
+---
+title: "Step 8: Strings and Regular Expressions"
+date: "2026-01-23"
+description: "Advanced string manipulation, file replacement, and the power of Regular Expressions (Regex)."
+tags: ["Python", "Regex", "Strings", "FileIO"]
+---
+
+# Strings and Regular Expressions
+
+In this step, we move beyond basic string methods to **Regular Expressions (Regex)**. For a Data Analyst, Regex is the "Swiss Army Knife" for data cleaning, allowing you to find complex patterns in messy text that simple search methods would miss.
+
+## 1. File Modification and Counting
+We can iterate through files to count specific occurrences or replace text throughout a whole document.
+- **`.count()`:** Returns the total number of times a substring appears in a string.
+- **`.replace()`:** Substitutes a specific substring with another.
+- **Writing Files:** By opening a file with the `'w'` (write) mode, we can save our modified text.
+
+
+
+## 2. Regular Expressions (The `re` Module)
+Regular expressions are sequences of characters that define a search pattern.
+- **`re.search(pattern, text)`:** Checks if a pattern exists. Returns a **Match object** if found, or `None`.
+- **Match Objects:** These objects contain the `group()` (the matched text) and the `span()` (the start and end indices).
+
+### Special Regex Characters
+Regex uses "meta-characters" to create flexible patterns:
+- **`|` (OR):** Matches either the left or right expression (e.g., `Mina|Murray`).
+- **`^` (Start):** Matches the beginning of a string.
+- **`$` (End):** Matches the end of a string.
+- **`()` (Group):** Groups parts of a pattern together (e.g., `cent(er|re)`).
+- **`?` (Optional):** Makes the preceding character optional (e.g., `colou?r` matches both British and American spellings).
+
+
+
+## 3. String Substitution with `re.sub`
+While `.replace()` works for exact matches, `re.sub()` allows you to replace complex patterns across a string.
+```python
+import re
+# Replacing British 'colour' or American 'color' with 'color'
+new_line = re.sub('colou?r', 'color', line)
+```
+
+## 4. Debugging with Shell Commands
+When working with large files, you don't want to print the whole thing. Jupyter allows you to use shell commands (prefixed with `!`) to inspect files.
+- **`!head -n file.txt`:** View the first *n* lines.
+- **`!tail -n file.txt`:** View the last *n* lines.
+- **`>` (Redirect):** Saves the output of a command to a new file (e.g., `!head -100 large.txt > small.txt`).
+
+## 5. Exercises: Regex Detective Work
+
+### Exercise: Python `head` Implementation
+I created a Python function to replicate the shell `head` command without using advanced keywords like `with` or `try`.
+```python
+def head(filename, n, output_filename=None):
+    fin = open(filename)
+    fout = None
+    if output_filename:
+        fout = open(output_filename, 'w')
+
+    for i in range(n):
+        line = fin.readline()
+        if line == '':
+            break
+        if fout:
+            fout.write(line)
+        else:
+            print(line, end='')
+```
+
+### Exercise: Wordle Solver
+By combining Regex and logic from Step 7, I built a filter to find potential Wordle targets based on known letter positions and exclusions.
+
+### Exercise: Analyzing "The Count of Monte Cristo"
+To test Umberto Eco's claim about repetitive adjectives, I used a single Regex pattern to find variations of "pale":
+```python
+# Pattern matches 'pale', 'pales', 'paled', 'paleness', or 'pallor'
+pattern = r'pale(s|d|ness)?|pallor'
+count = count_matches(pattern)
+```
+
+---
+
+### Reflection
+Regex is often intimidating, but it is the bridge between a "beginner" and a "power user." In Step 2 of your roadmap (Advanced SQL), you will see that these same Regex concepts apply to pattern matching in databases. Mastering them now in Python makes you a more versatile "Best-in-Class" Analyst.
+
+**Next Step:** Would you like me to generate a cheat sheet for the most common Regex patterns to keep for your portfolio?

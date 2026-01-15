@@ -1,0 +1,100 @@
+---
+title: "Step 2: Variables, Expressions, and Statements"
+date: "2026-01-16"
+description: "A deep dive into assignment, variable naming, expressions, and the Python math module."
+tags: ["Python", "Variables", "MathModule"]
+---
+
+# Variables, Expressions, and Statements
+
+Chapter 2 moves from simple calculations to **state management**—how we store, name, and manipulate data using variables.
+
+## 1. Assignment Statements
+An assignment statement creates a new variable and gives it a value.
+- **Syntax:** `message = 'And now for something completely different'`
+- **State:** In memory, the variable name points to the value.
+- **Variable Types:** The type of a variable is the type of the value it refers to.
+
+
+
+## 2. Variable Names
+To keep code "Best-in-Class," naming conventions are vital:
+- **Rules:** Can contain letters and numbers, but must start with a letter. Underscores (`_`) are standard for multi-word names (snake_case).
+- **Keywords:** You cannot use Python's reserved words (like `if`, `True`, `while`, `import`) as variable names.
+- **Clean Code Tip:** Use intention-revealing names. Instead of `n = 100`, use `total_users = 100`.
+
+## 3. Expressions and Statements
+- **Expression:** A combination of values, variables, and operators that the interpreter evaluates to find a value.
+- **Statement:** A unit of code that has an effect, like creating a variable or displaying a value.
+- **Key Difference:** An expression has a value; a statement does not.
+
+## 4. Script Mode vs. Interactive Mode
+- **Interactive Mode:** Great for quick tests. It automatically displays the result of expressions.
+- **Script Mode:** Used for building real applications. Expressions without `print()` will run but won't display anything to the user.
+
+## 5. Order of Operations
+Python follows mathematical precedence (PEMDAS).
+1. Parentheses `()`
+2. Exponents `**`
+3. Multiplication/Division `*`, `/`, `//`, `%`
+4. Addition/Subtraction `+`, `-`
+
+## 6. String Operations
+While math operators generally don't work on strings, there are two exceptions:
+- **Concatenation (`+`):** Joins strings (`'first' + 'second'`).
+- **Repetition (`*`):** Multiplies strings (`'Spam' * 3`).
+
+## 7. Comments
+Comments start with `#`.
+- **Purpose:** To explain the *why*, not the *what*.
+- **Rule:** As a "Best-in-Class" Analyst, use them to document assumptions in your data formulas.
+
+## 8. Debugging: Syntax, Runtime, and Semantic Errors
+- **Syntax Error:** Putting a period `.` at the end of a statement.
+- **ModuleNotFoundError:** Misspelling a module (e.g., `import maath`). This is a runtime error.
+- **Semantic Error:** The code runs, but the math is wrong (logic error).
+
+
+
+## 9. Exercise: The Math Module & Sphere Volume
+Working with the `math` module for geometric and trigonometric calculations.
+
+### Part 1: Volume of a Sphere
+**Formula:** $V = \frac{4}{3} \pi r^3$
+
+```python
+import math
+
+# radius is in centimeters
+radius = 5
+# volume is in cubic centimeters
+volume = (4/3) * math.pi * radius**3
+
+print("Sphere Volume:", volume)
+```
+
+### Part 2: Trigonometric Identity
+Testing if $\cos^2 x + \sin^2 x = 1$ for $x = 42$.
+
+```python
+x = 42
+result = math.cos(x)**2 + math.sin(x)**2
+print("Trig Identity Result:", result)
+# Output is 1.0 (Approximate due to floating-point precision)
+```
+
+### Part 3: Three Ways to Compute $e^2$
+The `math` module provides specialized tools for Euler's number ($e$).
+
+1. **Exponent Operator:** `math.e ** 2`
+2. **The Pow Function:** `math.pow(math.e, 2)`
+3. **The Exp Function:** `math.exp(2)`
+
+**Observation:** `math.exp(2)` is the most accurate as it is optimized for exponential growth calculations without intermediate rounding steps.
+
+
+
+---
+
+### Reflection
+Mastering variables and the `math` module is the bridge between basic scripting and Data Analysis. Understanding how Python handles floating-point precision prevents errors in financial or scientific datasets later in the roadmap.

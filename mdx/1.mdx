@@ -1,0 +1,78 @@
+---
+title: "Step 1: Programming as a Way of Thinking"
+date: "2026-01-15"
+description: "A deep dive into arithmetic operators, functions, values, types, and the nuances of formal languages."
+tags: ["Python", "Data Analytics", "Basics"]
+---
+
+# Programming as a Way of Thinking
+
+Chapter 1 introduces Python not just as a tool, but as a formal language. Mastering these sub-topics is essential before moving toward complex data analysis.
+
+## 1. Arithmetic Operators
+Python acts as a powerful calculator. The primary operators include:
+- **Addition (`+`) & Subtraction (`-`):** Basic arithmetic.
+- **Multiplication (`*`):** Standard product.
+- **Division (`/`):** Always results in a **floating-point** number (e.g., `84 / 2 = 42.0`).
+- **Floor Division (`//`):** Rounds down to the nearest integer (e.g., `85 // 2 = 42`).
+- **Exponentiation (`**`):** Raises a number to a power.
+- **XOR (`^`):** A bitwise operator. Note: `7 ^ 2` is `5`, not `49`.
+
+
+
+## 2. Expressions and Order of Operations
+An **expression** is a combination of values and operators. Python follows mathematical precedence (PEMDAS):
+1. Parentheses `()`
+2. Exponents `**`
+3. Multiplication/Division `*`, `/`, `//`, `%`
+4. Addition/Subtraction `+`, `-`
+
+## 3. Arithmetic Functions
+Beyond operators, Python uses **function calls** to process numbers:
+- **`round(value)`:** Rounds to the nearest whole number.
+- **`abs(value)`:** Computes the absolute value.
+- **Syntax Rule:** Functions *must* have parentheses. `abs -42` will trigger a `SyntaxError`.
+
+## 4. Strings
+Strings (`str`) are sequences of characters.
+- **Quotes:** Can use single (`'`) or double (`"`) quotes. Double quotes are useful for strings containing apostrophes: `"it's a small world"`.
+- **Concatenation (`+`):** Joins strings together.
+- **Repetition (`*`):** Repeats a string multiple times (e.g., `'Spam' * 4`).
+- **Function `len()`:** Returns the count of characters in a string.
+
+
+
+## 5. Values and Types
+Every value belongs to a **type**:
+- `2` is an **int** (integer).
+- `42.0` is a **float** (floating-point).
+- `'Hello'` is a **str** (string).
+- **Type Conversion:** We can use `int()`, `float()`, and `str()` to convert values.
+- **The "Comma" Trap:** Python treats `1,000,000` as a **tuple** (1, 0, 0), not a million. Use underscores for readability: `1_000_000`.
+
+## 6. Formal vs. Natural Languages
+This is the most important conceptual shift for a programmer:
+- **Natural Languages:** Evolved naturally (English, Nepali). High ambiguity and redundancy.
+- **Formal Languages:** Designed for specific goals (Math, Python). Zero ambiguity, highly concise, and strictly literal.
+
+[Image comparing properties of natural languages vs formal programming languages]
+
+## 7. Debugging: The Managerial Mindset
+Errors are called **bugs**. Debugging is the process of fixing them.
+- **The Computer's Nature:** It is fast and precise but lacks empathy and "big picture" understanding.
+- **Your Role:** Think like a manager. Be patient, use logic to find where the instructions were literal but incorrect, and don't let emotions interfere with the process.
+
+## 8. Exercise: Calculation Practice
+To apply these concepts, I calculated the average pace for a 10km run completed in 42 minutes and 42 seconds.
+
+```python
+# Calculating pace in minutes and seconds per mile
+distance_km = 10
+distance_miles = distance_km / 1.61
+total_seconds = (42 * 60) + 42
+pace_sec_per_mile = total_seconds / distance_miles
+
+print("Minutes:", pace_sec_per_mile // 60)
+print("Seconds:", pace_sec_per_mile % 60)
+```
+**Result:** ~6 minutes and 52 seconds per mile.

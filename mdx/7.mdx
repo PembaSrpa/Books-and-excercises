@@ -1,0 +1,87 @@
+---
+title: "Step 7: Iteration, Search, and File I/O"
+date: "2026-01-22"
+description: "Mastering re-assignment, while loops, reading external files, and the linear search pattern."
+tags: ["Python", "Iteration", "FileIO", "Search", "Testing"]
+---
+
+# Iteration and Search Patterns
+
+Iteration is the workhorse of data analysis. This chapter covers how to repeat tasks, how to read external data files, and how to verify our logic using automated tests.
+
+## 1. Variable Reassignment and Updates
+Variables are not mathematical constants; they can be updated as a program runs.
+- **Reassignment:** Giving a new value to an existing variable.
+- **Updating:** A specific reassignment where the new value depends on the old (`x = x + 1`).
+- **Initialization:** You must define a variable before you can update it, or Python will throw a `NameError`.
+
+
+
+## 2. The `while` Statement
+The `while` loop repeats a block as long as a condition remains `True`.
+- It is ideal for "indefinite iteration" where you don't know exactly how many loops you need (e.g., Newton's method for square roots).
+- **`break`:** Use this to exit a loop immediately from inside the body.
+
+## 3. Reading Word Lists (File I/O)
+For the exercises in this chapter, we use `words.txt`, a file containing 113,809 English words.
+- **Opening a File:** `fin = open('words.txt')` creates a **file object**.
+- **Reading Lines:** You can iterate over a file object using a `for` loop to process data line by line.
+- **The `.strip()` Method:** Files often contain "whitespace" (like `\n` newlines). `word.strip()` removes these so we can analyze the text accurately.
+
+
+
+## 4. The Linear Search Pattern
+This is a fundamental algorithm used to find a needle in a haystack.
+
+### The "Early Exit" Logic
+In a search function, we return `True` as soon as we find what we are looking for. We only return `False` after the loop has checked every single element.
+
+```python
+def uses_any(word, letters):
+    for letter in word.lower():
+        if letter in letters.lower():
+            return True # Exit found
+    return False # Exhausted search
+```
+
+**Common Trap:** Putting `return False` in an `else` block inside the loop. This causes the function to fail because it exits after looking at only the first character.
+
+## 5. String Methods for Data Analysts
+Data cleaning relies heavily on these methods:
+- **`.lower()` / `.upper()`:** Standardizing case for comparisons.
+- **`.strip()`:** Cleaning raw input from files or users.
+- **The `in` Operator:** A concise way to check for membership.
+
+## 6. Automated Testing with `doctest`
+To ensure "Best-in-Class" reliability, we use `doctest`. It allows us to put examples in the docstring and run them as official tests.
+- **`>>>`**: Indicates the test command.
+- **Expected Output:** The line immediately following the command.
+
+```python
+def uses_none(word, forbidden):
+    """Checks whether a word avoids forbidden letters.
+    >>> uses_none('banana', 'xyz')
+    True
+    >>> uses_none('apple', 'efg')
+    False
+    """
+    return not uses_any(word, forbidden)
+```
+
+## 7. Exercises: The "Spelling Bee" Logic
+I developed a suite of functions to solve word puzzles, demonstrating how simple search patterns can be composed into complex business logic.
+
+| Function | Logic |
+| :--- | :--- |
+| `uses_none` | Returns `True` if no forbidden letters are present. |
+| `uses_only` | Returns `True` if word uses *only* the available set. |
+| `uses_all` | Returns `True` if *every* required letter is present. |
+| `check_word` | Combines length checks and character validation. |
+| `word_score` | Assigns points based on length and "pangram" status. |
+
+
+
+---
+
+### Reflection
+Step 7 transitions from "how to code" to "how to build systems." By combining file reading, loops, and automated testing, I am now able to process large external datasets and guarantee that my analysis logic is correct. This is a massive leap toward Step 4 of the Data Analyst roadmap (Python for Data Analysis).
