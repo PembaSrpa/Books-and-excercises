@@ -18,5 +18,5 @@ def git_push(message):
         print(f"An error occurred while pushing: {e}")
 
 # Usage
-message = "9.ipynb"
+message = "10.ipynb"
 git_push(message)
