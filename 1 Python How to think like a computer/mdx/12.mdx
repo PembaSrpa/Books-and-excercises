@@ -1,0 +1,234 @@
+---
+key: "chapter-12"
+title: "Chapter 12"
+date: "2026-01-27"
+description: "Text Analysis and Generation."
+tags: ["Python", "Data Structures"]
+---
+
+# Text Analysis and Generation
+
+### 1. Introduction
+This chapter uses Python's core data structures—lists, dictionaries, and tuples—to explore text analysis and Markov generation. Text analysis describes statistical relationships between words, while Markov generation uses those relationships to generate new, similar text. By the end of this study, we bridge the gap between simple data storage and probabilistic modeling.
+
+### 2. Unique Words
+The first step is counting unique words in a text file. Using a dictionary ensures uniqueness because keys cannot be duplicated. When we iterate through the book, the dictionary effectively acts as a filter; if a word is already a key, assigning a value to it again does not create a new entry.
+
+```python
+unique_words = {}
+for line in open(filename):
+    seq = line.split()
+    for word in seq:
+        unique_words[word] = 1
+
+len(unique_words)
+# Result: 6040
+```
+
+
+
+To inspect the results, we sort by length. Sorting by length is a common technique to identify outliers in text data, such as hyphenated strings or tokens that still contain punctuation.
+
+```python
+sorted(unique_words, key=len)[-5:]
+# Result: ['chocolate-coloured', 'superiors—behold!”', 'coolness—frightened', 'gentleman—something', 'pocket-handkerchief.']
+```
+
+The output reveals that our basic splitting method is flawed. It includes em-dashes and punctuation marks as part of the word strings.
+
+### 3. Punctuation and Dash Handling
+The initial count includes punctuation and combined words. We solve this by replacing em-dashes with spaces and stripping punctuation. This process is crucial for data normalization; without it, our statistical analysis would be skewed by typographic variations.
+
+```python
+def split_line(line):
+    return line.replace('—', ' ').split()
+
+split_line('coolness—frightened')
+# Result: ['coolness', 'frightened']
+```
+
+
+
+We use the `unicodedata` module to find all characters categorized as punctuation ('P'). This allows the script to be portable across different languages and character sets without hardcoding a specific list of symbols.
+
+```python
+import unicodedata
+
+# Examples of Unicode categories
+unicodedata.category('A') # 'Lu' (Letter, Uppercase)
+unicodedata.category('.') # 'Po' (Punctuation, Other)
+
+punc_marks = {}
+for line in open(filename):
+    for char in line:
+        category = unicodedata.category(char)
+        if category.startswith('P'):
+            punc_marks[char] = 1
+
+punctuation = ''.join(punc_marks)
+print(punctuation) # .’;,-“”:?—‘!()_
+```
+
+### 4. Word Cleaning
+We define a function to strip punctuation and normalize casing. Lowercasing is essential because "The" and "the" should logically be treated as the same word in a frequency distribution.
+
+```python
+def clean_word(word):
+    return word.strip(punctuation).lower()
+
+clean_word('“Behold!”') # 'behold'
+clean_word('pocket-handkerchief') # 'pocket-handkerchief'
+```
+
+
+
+Applying this logic to the entire book significantly refines our unique word count, removing the noise introduced by formatting.
+
+```python
+unique_words2 = {}
+for line in open(filename):
+    for word in split_line(line):
+        word = clean_word(word)
+        unique_words2[word] = 1
+
+len(unique_words2) # 4005
+sorted(unique_words2, key=len)[-5:]
+```
+
+### 5. Word Frequencies
+To find the most frequent words, we build a histogram. This is a common pattern where we check for the existence of a key and either initialize it or increment its current value.
+
+```python
+word_counter = {}
+for line in open(filename):
+    for word in split_line(line):
+        word = clean_word(word)
+        if word not in word_counter:
+            word_counter[word] = 1
+        else:
+            word_counter[word] += 1
+```
+
+
+
+To sort them, we define a helper function to extract the value from the dictionary items, which are returned as tuples of (key, value).
+
+```python
+def second_element(t):
+    return t[1]
+
+items = sorted(word_counter.items(), key=second_element, reverse=True)
+
+for word, freq in items[:5]:
+    print(freq, word, sep='\t')
+```
+
+### 6. Optional Parameters
+We can encapsulate the printing logic in a function with a default value for the number of words to display. This is a powerful feature in Python that allows for cleaner, more readable code.
+
+```python
+def print_most_common(word_counter, num=5):
+    items = sorted(word_counter.items(), key=second_element, reverse=True)
+    for word, freq in items[:num]:
+        print(freq, word, sep='\t')
+
+# Calling the function without specifying 'num'
+print_most_common(word_counter) # Uses default 5
+
+# Calling the function and overriding the default
+print_most_common(word_counter, 3) # Overrides with 3
+```
+
+### 7. Dictionary Subtraction
+To find potential misspellings, we subtract a list of valid words from the words found in our text. This is essentially a "set difference" operation performed using dictionary keys.
+
+```python
+word_list = open('words.txt').read().split()
+valid_words = {}
+for word in word_list:
+    valid_words[word] = 1
+
+def subtract(d1, d2):
+    res = {}
+    for key in d1:
+        if key not in d2:
+            res[key] = d1[key]
+    return res
+
+diff = subtract(word_counter, valid_words)
+print_most_common(diff)
+```
+
+
+
+To find "singletons" (words appearing only once in the book):
+
+```python
+singletons = []
+for word, freq in diff.items():
+    if freq == 1:
+        singletons.append(word)
+
+singletons[-5:]
+```
+
+### 8. Random Numbers and Probability
+We use the `random` module to select words from our text. Selecting from `keys()` gives equal weight to every unique word, whereas selecting based on the histogram gives more weight to common words.
+
+```python
+import random
+
+# Selecting a truly random word from the unique keys
+t = list(word_counter.keys())
+random.choice(t)
+```
+
+To select words based on their frequency (probability), we expand the histogram into a list. This is a memory-intensive but straightforward way to handle weighted randomness.
+
+```python
+def choose_from_hist(hist):
+    t = []
+    for word, freq in hist.items():
+        t.extend([word] * freq)
+    return random.choice(t)
+```
+
+### 9. Bigrams and Markov Analysis
+Bigrams are pairs of consecutive words. Markov analysis takes this further by mapping a "prefix" (the current state) to a list of possible "suffixes" (all words that have ever followed that prefix in the text).
+
+```python
+def make_bigrams(word_list):
+    mapping = {}
+    for i in range(len(word_list)-1):
+        prefix = word_list[i]
+        suffix = word_list[i+1]
+        if prefix not in mapping:
+            mapping[prefix] = [suffix]
+        else:
+            mapping[prefix].append(suffix)
+    return mapping
+```
+
+
+
+### 10. Text Generation
+Using the mapping, we generate a random walk through the word transitions. We must update the prefix at each step to move the chain forward.
+
+```python
+def shift(prefix, word):
+    """Forms a new prefix by removing the first word and adding the new one."""
+    return prefix[1:] + (word,)
+
+def generate_text(mapping, n=100):
+    # Choose a random starting point from the available prefixes
+    prefix = random.choice(list(mapping.keys()))
+
+    for i in range(n):
+        suffixes = mapping.get(prefix)
+        if suffixes == None:
+            # End the generation if the prefix has no known suffix
+            break
+        word = random.choice(suffixes)
+        print(word, end=' ')
+        prefix = shift(prefix, word)
+```
