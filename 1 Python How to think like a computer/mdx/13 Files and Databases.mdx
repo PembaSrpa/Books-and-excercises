@@ -1,0 +1,106 @@
+---
+key : "chapter-13"
+title : "Chapter 13"
+date : "2026-01-28"
+description : "Files and Databases."
+tags : ["Python", "FileIO", "Databases"]
+---
+
+# Files and Databases
+
+### What is the purpose of the shelve module?
+
+The `shelve` module allows you to create a persistent key-value store. Unlike a standard dictionary that exists only in RAM, a "shelf" is saved to the hard drive. It maps string keys to Python objects.
+
+### How do you initialize a shelf and ensure directories exist?
+
+You use `os.makedirs` with `exist_ok=True` to create a directory if it is missing. Then, `os.path.join` creates a cross-platform path for the database file.
+
+```python
+import os
+import shelve
+
+config = {'data_dir': 'photo_info'}
+os.makedirs(config['data_dir'], exist_ok=True)
+db_file = os.path.join(config['data_dir'], 'captions')
+
+db = shelve.open(db_file, 'c')
+db['jan-2023/photo1.jpg'] = 'Cat nose'
+db.close()
+```
+
+### How does a shelf object behave?
+
+It mimics a dictionary. You can use the bracket operator for assignment and lookup, the `in` operator to check for keys, and methods like `keys()` and `values()`.
+
+### Why does appending to a list inside a shelf fail?
+
+When you access a mutable object like a list in a shelf, Python returns a copy. Modifying that copy does not update the file on the disk automatically.
+
+```python
+# Incorrect way
+db[key].append(new_word)
+
+# Correct way
+temp_list = db[key]
+temp_list.append(new_word)
+db[key] = temp_list
+```
+
+### How do you compare two files for equivalence?
+
+To check if two files contain the same data, you open them in binary mode (`'rb'`). This treats the content as a `bytes` object rather than text.
+
+```python
+def same_contents(path1, path2):
+    data1 = open(path1, 'rb').read()
+    data2 = open(path2, 'rb').read()
+    return data1 == data2
+```
+
+### What is a more efficient way to compare many files?
+
+Using a hash function like **MD5** from the `hashlib` module is more efficient. It converts file content into a short, unique string called a digest. If two files have the same digest, they are almost certainly identical.
+
+
+
+```python
+import hashlib
+
+def md5_digest(filename):
+    data = open(filename, 'rb').read()
+    md5_hash = hashlib.md5()
+    md5_hash.update(data)
+    return md5_hash.hexdigest()
+```
+
+### How do you recursively search a directory?
+
+You can "walk" through a directory using `os.listdir`. By checking if a path is a directory with `os.path.isdir`, the function can call itself to search subfolders.
+
+
+
+```python
+def walk(dirname, visit_func):
+    for name in os.listdir(dirname):
+        path = os.path.join(dirname, name)
+        if os.path.isfile(path):
+            visit_func(path)
+        else:
+            walk(path, visit_func)
+```
+
+### What are common debugging issues with files?
+
+1.  **Invisible Whitespace:** Spaces, tabs (`\t`), and newlines (`\n`) can cause comparison errors.
+2.  **Line Endings:** Systems vary between `\n` (Unix/Mac) and `\r\n` (Windows).
+3.  **Case Sensitivity:** macOS/Unix are case-sensitive, while Windows often ignores the difference between 'File.txt' and 'file.txt'.
+
+### How can the repr function help?
+
+The `repr` function returns a string representation that makes invisible characters visible, which is essential for debugging file parsing logic.
+
+```python
+s = '1 2\t 3\n 4'
+print(repr(s))
+```
